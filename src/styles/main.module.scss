@@ -1,0 +1,61 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 24px;
+  color: #F25E7A;
+  font-weight: 500;
+}
+
+.button {
+  background-color: #F25E7A;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 8px 16px;
+  text-align: center;
+  width: 100%;
+  flex-grow: 1;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #A60A33;
+  }
+}
+ .editorWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: stretch;
+  
+ }
+ .bottomWrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+ }
+
+ .editor {
+  font-family: "Fira code", "Fira Mono", monospace;
+  font-size: 14px;
+  overflow-y: scroll;
+  height: 500px;
+  background-color: #ddd;
+  border-radius: 4px;
+  border: 2px solid #F25E7A;
+  outline: none;
+  width: 100%;
+  padding: 8px 4px;
+}
