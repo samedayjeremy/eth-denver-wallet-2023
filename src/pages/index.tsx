@@ -9,6 +9,7 @@ import styles from "../styles/main.module.scss";
 function App() {
 
   const [code, setCode] = useState<string>('');
+  const [ethAmount, setEthAmount] = useState<string>('');
 
   return (
     <div>
@@ -35,6 +36,10 @@ function App() {
                 type="number"
                 v-model="ethValue"
                 className="bg-transparent border-transparent"
+                value={ethAmount}
+                onChange={(e) => {
+                  setEthAmount(e.target.value);
+                }}
               />
               <span>ETH</span>
             </div>
