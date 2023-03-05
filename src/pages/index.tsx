@@ -20,6 +20,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Ecowallet__factory } from "components/contracts/typechain";
 
+
 // import './App.css';
 
 interface WalletInfo {
