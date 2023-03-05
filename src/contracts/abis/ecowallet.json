@@ -1,0 +1,76 @@
+[
+  { "inputs": [], "name": "RuntimeDeployError", "type": "error" },
+  { "inputs": [], "name": "RuntimeDestroyError", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "runtimeCode", "type": "bytes" }
+    ],
+    "name": "_deployRuntime",
+    "outputs": [
+      { "internalType": "address", "name": "runtime", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "runtimeCode", "type": "bytes" },
+      { "internalType": "bytes", "name": "callData", "type": "bytes" },
+      { "internalType": "uint256", "name": "walletSalt", "type": "uint256" }
+    ],
+    "name": "exec",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getExecuteInfo",
+    "outputs": [
+      { "internalType": "address", "name": "runtime", "type": "address" },
+      { "internalType": "bytes", "name": "callData", "type": "bytes" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "runtimeCode", "type": "bytes" }
+    ],
+    "name": "getRuntimeByRuntimeCode",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "owner", "type": "address" },
+      { "internalType": "uint256", "name": "walletSalt", "type": "uint256" }
+    ],
+    "name": "getWallet",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "runtime", "type": "address" },
+      { "internalType": "bytes", "name": "callData", "type": "bytes" },
+      { "internalType": "uint256", "name": "walletSalt", "type": "uint256" }
+    ],
+    "name": "reexec",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint248", "name": "", "type": "uint248" }
+    ],
+    "name": "wasNonceUsed",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
