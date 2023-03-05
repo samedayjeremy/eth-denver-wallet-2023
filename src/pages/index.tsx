@@ -1,32 +1,42 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/main.module.scss";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
+import {
+  configureChains,
+  createClient,
+  goerli,
+  useAccount,
+  WagmiConfig,
+} from "wagmi";
 import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Ecowallet__factory } from "components/contracts/typechain";
 
 // import './App.css';
 
+interface WalletInfo {
+  walletAddress: string;
+  walletSalt: number;
+}
+
 function App() {
-  // require('dotenv').config();
+  const CONTRACT_ADDRESS = "0x82b035B4405Dd60b449b054894004FeE80566655";
 
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
   if (!apiKey) {
     throw new Error("No API Key provided, seti n ENV");
   }
 
-  console.log({ apiKey });
-
   const { chains, provider } = configureChains(
-    [mainnet, polygon, optimism, arbitrum],
+    [goerli],
     [alchemyProvider({ apiKey: apiKey }), publicProvider()]
   );
 
@@ -44,6 +54,44 @@ function App() {
   const [code, setCode] = useState<string>("");
   const [ethAmount, setEthAmount] = useState<string>("");
 
+  const [availableWallets, setAvailableWallets] = useState<WalletInfo[]>([]);
+  const [isLoadingAddresses, setLoadingAddresses] = useState<boolean>(false);
+
+  const { address } = useAccount();
+
+  const fetchAccounts = async () => {
+
+    if (!address) {
+      setAvailableWallets([]);
+      return;
+    }
+    const ethersProvider = wagmiClient.getProvider();
+
+    const ecoWallet = Ecowallet__factory.connect(
+      CONTRACT_ADDRESS,
+      ethersProvider
+    );
+    setLoadingAddresses(true);
+
+    console.log('address', address);
+
+    const [w0, w1, w2] = await Promise.all([
+      ecoWallet.getWallet(address!, 0),
+      ecoWallet.getWallet(address!, 1),
+      ecoWallet.getWallet(address!, 2),
+    ]);
+    setAvailableWallets([
+      { walletAddress: w0, walletSalt: 0 },
+      { walletAddress: w1, walletSalt: 1 },
+      { walletAddress: w2, walletSalt: 2 },
+    ]);
+    setLoadingAddresses(false);
+  };
+  useEffect(() => {
+    fetchAccounts();
+  }, [address]);
+  //new EcoWallet wagmiClient.provider;
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
@@ -55,9 +103,17 @@ function App() {
               </div>
               <div className="flex flex-row space-x-4">
                 <span className="text-2xl">👛</span>
-                <select className="flex-grow rounded-md bg-blue-200 text-slate-700 font-mono p-2 font-bold">
-                  <option>a</option>
-                </select>
+                {isLoadingAddresses ? (
+                  <p>Loading...</p>
+                ) : (
+                  availableWallets.length ? <select className="flex-grow rounded-md bg-blue-200 text-slate-700 font-mono p-2 font-bold">
+                    {availableWallets.map((w) => {
+                      return (
+                        <option value={w.walletSalt}>{w.walletAddress}</option>
+                      );
+                    })}
+                  </select> : <p>Sign in for wallets</p>
+                )}
               </div>
               <textarea
                 id="editor"
